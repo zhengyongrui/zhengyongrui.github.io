@@ -41,6 +41,17 @@ OpenCode 是一个基于终端的 AI 编程助手（类 Cursor AI CLI 版），�
 
 ### 2.1 安装方式
 
+**推荐方式：使用 QClaw 安装**
+
+QClaw 是目前最方便的 OpenCode 安装方式，一键完成安装和配置。
+
+```powershell
+# 通过 QClaw 安装 OpenCode
+# 具体安装命令请参考 QClaw 官方文档
+```
+
+**备选方式：npm 直接安装**
+
 ```powershell
 npm install -g opencode-ai
 ```
@@ -83,26 +94,101 @@ opencode -c
 
 ## 三、基础配置
 
-### 3.1 添加 AI Provider（API Key）
+### 3.1 配置 Coding Plan（阿里云百炼）
 
-```powershell
-# 方式一：命令行引导
-opencode auth login
+推荐使用阿里云百炼 Coding Plan，支持多种国产大模型。
 
-# 方式二：直接编辑凭证文件
-# 路径：~/.local/share/opencode/auth.json
+**配置文件路径：**
+- macOS / Linux: `~/.config/opencode/opencode.json`
+- Windows: `C:\Users\您的用户名\.config\opencode\opencode.json`
+
+**关键配置项说明：**
+- **Base URL**：`https://coding.dashscope.aliyuncs.com/apps/anthropic/v1`（末尾必须带 `/v1`，否则报 404）
+- **API Key**：格式为 `sk-sp-xxx`，从阿里云百炼控制台获取
+
+**完整配置示例：**
+
+```json
+{
+    "$schema": "https://opencode.ai/config.json",
+    "provider": {
+        "bailian-coding-plan": {
+            "npm": "@ai-sdk/anthropic",
+            "name": "Model Studio Coding Plan",
+            "options": {
+                "baseURL": "https://coding.dashscope.aliyuncs.com/apps/anthropic/v1",
+                "apiKey": "YOUR_API_KEY"
+            },
+            "models": {
+                "qwen3.6-plus": {
+                    "name": "Qwen3.6 Plus",
+                    "modalities": {
+                        "input": ["text", "image"],
+                        "output": ["text"]
+                    },
+                    "options": {
+                        "thinking": {
+                            "type": "enabled",
+                            "budgetTokens": 8192
+                        }
+                    },
+                    "limit": {
+                        "context": 1000000,
+                        "output": 65536
+                    }
+                },
+                "qwen3-coder-plus": {
+                    "name": "Qwen3 Coder Plus",
+                    "modalities": {
+                        "input": ["text"],
+                        "output": ["text"]
+                    },
+                    "limit": {
+                        "context": 1000000,
+                        "output": 65536
+                    }
+                },
+                "glm-5": {
+                    "name": "GLM-5",
+                    "modalities": {
+                        "input": ["text"],
+                        "output": ["text"]
+                    },
+                    "options": {
+                        "thinking": {
+                            "type": "enabled",
+                            "budgetTokens": 8192
+                        }
+                    },
+                    "limit": {
+                        "context": 202752,
+                        "output": 16384
+                    }
+                }
+            }
+        }
+    }
+}
 ```
 
-支持的 Provider：OpenAI、Anthropic、Groq、OpenRouter、Azure、Gemini、Bedrock 等。
+**支持的模型列表：**
+
+| 模型 | 上下文长度 | 输出长度 | 特性 |
+|------|-----------|---------|------|
+| qwen3.6-plus | 1M | 65K | 支持图像、思考模式 |
+| qwen3.5-plus | 1M | 65K | 支持图像、思考模式 |
+| qwen3-max | 256K | 32K | 通用大模型 |
+| qwen3-coder-plus | 1M | 65K | 代码专用 |
+| glm-5 | 200K | 16K | 支持思考模式 |
+| kimi-k2.5 | 256K | 32K | 支持图像、思考模式 |
+
+> 参考文档：https://bailian.console.aliyun.com/cn-beijing/?tab=doc#/doc/?type=model&url=3023086
 
 ### 3.2 查看可用模型
 
 ```powershell
 # 列出所有可用模型
 opencode models
-
-# 只看某个 provider 的模型
-opencode models anthropic
 
 # 刷新模型列表
 opencode models --refresh
@@ -111,18 +197,19 @@ opencode models --refresh
 opencode models --verbose
 ```
 
-### 3.3 配置 Agent 模型（opencode.json）
+### 3.3 验证配置
 
-在项目根目录或 `~/.config/opencode/opencode.json` 配置：
+保存配置后，重启 OpenCode 使配置生效：
 
-```json
-{
-  "provider": "qwen",
-  "model": "qwen3.6-plus",
-  "options": {
-    "temperature": 0.7
-  }
-}
+```powershell
+# 退出当前会话
+/exit
+
+# 重新启动
+opencode
+
+# 验证模型是否加载成功
+opencode models
 ```
 
 ---
@@ -189,11 +276,11 @@ Superpowers 运行时，按以下键在父子会话间切换：
 
 ---
 
-## 五、Superpowers 安装与使用
+## 五、Superpowers 工作流
 
 ### 5.1 什么是 Superpowers
 
-Superpowers 是 OpenCode 的一个多步 Agent 工作流，把开发过程拆成标准步骤：
+Superpowers 是一个多步 Agent 工作流，把开发过程拆成标准步骤：
 
 ```
 头脑风暴 → 写规格文档 → 审计规格 → 写实现计划 → 执行编码
@@ -201,43 +288,31 @@ Superpowers 是 OpenCode 的一个多步 Agent 工作流，把开发过程拆成
 
 每个步骤需要用户确认后再继续，比直接让 AI 改代码更可控。
 
-### 5.2 安装步骤
+### 5.2 安装方式
+
+Superpowers 需要单独安装，参考项目：https://github.com/mrth2/opencode-superpowers
+
+**安装命令：**
 
 ```powershell
-# 搜索 Superpowers
-opencode agent install opencode-superpowers
-
-# 安装完成后查看
-opencode agent list
+npx opencode-superpowers@latest
 ```
 
-成功安装后会看到 5 个 Agent：
+安装完成后，可通过以下方式启用：
 
-| Agent | 角色 |
-|-------|------|
-| `superpowers` | 主协调器（orchestrator） |
-| `superpowers-spec-writer` | 规格编写 |
-| `superpowers-spec-auditor` | 规格审计 |
-| `superpowers-plan-writer` | 实现计划编写 |
-| `superpowers-implementer` | 执行编码 |
+```powershell
+# 查看可用 Agent
+opencode agent list
 
-以及 6 个 Skills：
+# 启动 OpenCode
+opencode
+```
 
-- brainstorming - 头脑风暴
-- writing-plans - 计划编写
-- executing-plans - 计划执行
-- verification-before-completion - 完成前验证
-- subagent-driven-development - 子代理驱动开发
-- using-superpowers - 工作流启动引导
+进入 TUI 后，按 **Tab** 键切换到 **Superpowers** 模式即可使用。
 
 ### 5.3 使用方式
 
-```powershell
-# 启动 Superpowers 工作流
-opencode --agent superpowers
-```
-
-进入 TUI 后，切换到 **Superpowers 模式**（按 Tab），然后输入任务描述，例如：
+切换到 Superpowers 模式后，输入任务描述，例如：
 
 ```
 帮我把水卡页面改造成角色自适应的管理页面
@@ -250,19 +325,25 @@ Superpowers 会自动：
 4. 生成实现计划
 5. 逐任务执行编码
 
-### 5.4 各子 Agent 模型配置
+### 5.4 配置子 Agent 模型
 
-默认所有子 Agent 使用免费模型 `opencode/big-pickle`。如需切换，可在 Agent 文件中修改：
+Superpowers 包含多个子 Agent 协同工作，每个负责不同阶段。默认使用免费模型，如需切换更强模型，可手动修改配置。
 
-路径：`~/.config/opencode/agents/`
+**建议先查看可用模型列表：**
 
-| 文件 | 当前模型 |
-|------|---------|
-| `superpowers.md` | `qwen3.6-plus` |
-| `superpowers-spec-writer.md` | `qwen3.6-plus` |
-| `superpowers-spec-auditor.md` | `qwen3.6-plus` |
-| `superpowers-plan-writer.md` | `qwen3.6-plus` |
-| `superpowers-implementer.md` | `qwen3.6-plus` |
+```powershell
+opencode models
+```
+
+这样可以避免输入错误的模型名称，直接拷贝列表中的模型 ID 到配置文件。
+
+**配置目录（Windows）：**
+
+```
+C:\Users\<你的用户名>\.config\opencode\agents
+```
+
+进入该目录编辑对应的 Agent 配置文件，即可更改使用的模型。
 
 ---
 
