@@ -1,0 +1,35 @@
+# Butterfly 主题配置
+# 文档: https://butterfly.js.org/
+
+# 导航菜单
+menu:
+  首页: /
+  归档: /archives
+  标签: /tags
+  分类: /categories
+
+# 代码高亮主题
+highlight_theme: mac
+
+# 社交链接（可选）
+social:
+  github: https://github.com/zhengyongrui
+
+# 页脚设置
+footer:
+  owner:
+    enable: true
+    since: 2026
+
+# 文章meta显示
+post_meta:
+  page:
+    date_type: both
+    date_format: relative
+    categories: true
+    tags: true
+  post:
+    date_type: both
+    date_format: relative
+    categories: true
+    tags: true
