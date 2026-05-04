@@ -67,7 +67,6 @@ opencode --version
 
 | 用途 | 路径 |
 |------|------|
-| 可执行文件 | ~\AppData\Roaming\QClaw\npm-global\opencode.ps1 |
 | 全局配置目录 | ~/.config/opencode/ |
 | 数据存储目录 | ~/.local/share/opencode/ |
 | API 凭证文件 | ~/.local/share/opencode/auth.json |
@@ -354,60 +353,24 @@ opencode models
 
 这样可以避免输入错误的模型名称，直接拷贝列表中的模型 ID 到配置文件。
 
-**配置目录（Windows）：**
+**配置目录**：
+
+- win
 
 ```
 C:\Users\<你的用户名>\.config\opencode\agents
 ```
 
+- macOS
+
+```
+~/.config/opencode/agents
+
 进入该目录编辑对应的 Agent 配置文件，即可更改使用的模型。
-
+```
 ---
 
-## 六、项目实战：改进微信小程序
-
-### 6.1 项目信息
-
-- **项目名称**：智能取水系统 SaaS
-- **项目路径**：`D:\WeChatProjects\ysj-project`
-- **技术栈**：微信小程序前端 + Java Spring Boot 后端 + 微信云开发
-- **角色**：普通用户、租户管理员、超级管理员（三级权限）
-
-### 6.2 OpenCode 实战计划（10 步）
-
-以下是完整的学习实战路线：
-
-1. **首页交互优化** - 优化取水交互流程和页面展示
-2. **水卡管理页面** - 完善水卡余额、充值、消费记录
-3. **消费记录页面** - 添加筛选、导出、数据可视化
-4. **设备管理** - 设备状态监控、故障告警
-5. **用户反馈系统** - 报修、投诉、建议提交
-6. **租户管理后台** - 租户管理员的完整功能
-7. **超级管理后台** - 全局统计、数据管理
-8. **云函数开发** - 云端业务逻辑
-9. **CI/CD 自动化** - 自动化构建与发布
-10. **性能优化** - 包体积、加载速度、内存占用
-
-### 6.3 具体操作示例
-
-**启动 OpenCode 并选择 Agent：**
-
-```powershell
-cd D:\WeChatProjects\ysj-project
-opencode --agent superpowers
-```
-
-**按 Tab 切换到 Superpowers 模式，然后输入：**
-
-```
-优化首页的取水交互流程，让用户能更快看到设备状态和取水进度
-```
-
-Superpowers 会自动进入规格 → 审计 → 计划的完整流程。
-
----
-
-## 七、TUI 命令速查表
+## 六、TUI 命令速查表
 
 ```
 /connect        添加 Provider
@@ -429,7 +392,7 @@ Superpowers 会自动进入规格 → 审计 → 计划的完整流程。
 
 ---
 
-## 八、总结
+## 七、总结
 
 今天的核心收获：
 
@@ -445,4 +408,3 @@ OpenCode 在 Windows 下的体验已经比较成熟，配合微信小程序项�
 
 *文档生成时间：2026-05-03*
 *工具版本：opencode v1.14.33*
-*工作目录：D:\WeChatProjects\ysj-project*
