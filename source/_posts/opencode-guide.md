@@ -184,7 +184,24 @@ opencode -c
 
 > 参考文档：https://bailian.console.aliyun.com/cn-beijing/?tab=doc#/doc/?type=model&url=3023086
 
-### 3.2 查看可用模型
+### 3.2 配置 DeepSeek API
+
+DeepSeek 是国内领先的 AI 模型提供商，OpenCode 支持通过 `/connect` 命令快速接入。
+
+**前提条件：** 确保 OpenCode 版本 >= v1.14.24
+
+**从现有安装迁移：**
+
+1. 在输入框中输入 `/connect`，选择 `deepseek` 供应商
+
+2. 填入 DeepSeek API Key
+
+3. 选择 `DeepSeek-V4-Pro` 模型
+
+
+> 参考文档：https://api-docs.deepseek.com/zh-cn/quick_start/agent_integrations/opencode
+
+### 3.3 查看可用模型
 
 ```powershell
 # 列出所有可用模型
@@ -197,7 +214,7 @@ opencode models --refresh
 opencode models --verbose
 ```
 
-### 3.3 验证配置
+### 3.4 验证配置
 
 保存配置后，重启 OpenCode 使配置生效：
 
@@ -390,44 +407,7 @@ Superpowers 会自动进入规格 → 审计 → 计划的完整流程。
 
 ---
 
-## 七、踩坑记录
-
-### 坑1：PowerShell 不支持 && 链式命令
-
-```powershell
-# 报错：语法错误
-tree /f && cd backend && dir
-
-# 解决：用分号隔开
-tree /f; cd backend; dir
-```
-
-### 坑2：文件树命令文件名含特殊字符报错
-
-项目中有文件名 `[Help`（疑似 Windows 帮助文件残留），导致 `tree` 命令退出码 1。用普通 `dir` 代替即可。
-
-### 坑3：auth.json 格式问题
-
-配置 Provider API Key 时，写入 `auth.json` 格式不对会导致 `opencode auth list` 显示 0 credentials。正确格式应参考官方文档。
-
-### 坑4：会话恢复
-
-不小心退出 OpenCode 后，可用以下方式回到上一个会话：
-
-```powershell
-# 继续最近一次会话
-opencode -c
-
-# 指定会话 ID
-opencode --session <session_id>
-
-# 查看所有会话
-opencode session list
-```
-
----
-
-## 八、TUI 命令速查表
+## 七、TUI 命令速查表
 
 ```
 /connect        添加 Provider
@@ -449,7 +429,7 @@ opencode session list
 
 ---
 
-## 九、总结
+## 八、总结
 
 今天的核心收获：
 
