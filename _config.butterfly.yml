@@ -15,6 +15,17 @@ highlight_theme: mac
 social:
   github: https://github.com/zhengyongrui
 
+# 侧边栏设置
+aside:
+  enable: true
+  card_author:
+    enable: true
+    button:
+      enable: true
+      link: https://github.com/zhengyongrui
+      icon: fab fa-github
+      text: Follow Me
+
 # 页脚设置
 footer:
   owner:
