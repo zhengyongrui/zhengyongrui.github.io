@@ -67,6 +67,8 @@ opencode --version
 
 OpenCode 迭代速度很快，建议定期更新到最新版，以获得新模型、新功能和 bug 修复。
 
+而且通过opencode自带的提示进行更新，偶尔会出现更新失败，一直停留在旧版本，所以可以使用npm进行更新
+
 如果当初是通过 npm 全局安装的，可以直接用 `npm update` 升级到最新版本：
 
 ```powershell
