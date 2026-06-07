@@ -63,7 +63,38 @@ opencode --version
 # 输出示例：opencode v1.14.33
 ```
 
-### 2.2 重要路径（Windows 环境）
+### 2.2 更新 OpenCode
+
+OpenCode 迭代速度很快，建议定期更新到最新版，以获得新模型、新功能和 bug 修复。
+
+如果当初是通过 npm 全局安装的，可以直接用 `npm update` 升级到最新版本：
+
+```powershell
+# 更新全局安装的 opencode-ai
+npm update -g opencode-ai
+
+# 更新后验证版本
+opencode --version
+# 输出示例：opencode v1.14.40
+```
+
+> 💡 `npm update -g` 会把全局包升级到符合 `package.json` 中 `^` 范围的最新版本；如果你想强制升级到绝对最新版（即使跨大版本），可以改用 `npm install -g opencode-ai@latest`。
+
+**查看当前可升级的全局包**：
+
+```powershell
+# 列出所有过时的全局包
+npm outdated -g --depth=0
+```
+
+**回退到指定版本**（遇到新版有 bug 时偶尔会用到）：
+
+```powershell
+# 安装指定版本
+npm install -g opencode-ai@1.14.20
+```
+
+### 2.3 重要路径（Windows 环境）
 
 | 用途 | 路径 |
 |------|------|
@@ -71,7 +102,7 @@ opencode --version
 | 数据存储目录 | ~/.local/share/opencode/ |
 | API 凭证文件 | ~/.local/share/opencode/auth.json |
 
-### 2.3 启动方式
+### 2.4 启动方式
 
 ```powershell
 # 默认启动（TUI 界面）
